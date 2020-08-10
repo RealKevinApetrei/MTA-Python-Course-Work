@@ -8,6 +8,6 @@ print("Has 13 Apples")
 print(has13Apples)
 
 favorite_color = "blue"
-other_color = "Blue"
+other_color = "Blue suede shoes"
 print(favorite_color)
 print(other_color)
