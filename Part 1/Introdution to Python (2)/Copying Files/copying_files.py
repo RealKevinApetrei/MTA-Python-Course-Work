@@ -1,4 +1,10 @@
-output_filename = "/media/kevinapetrei/KEVIN USB/Files/Programming/MTA Python Course Work/Part 1/Introdution to Python (2)/Copying Files/output.txt"
+import pathlib
+
+current_dir = pathlib.Path()
+
+print(current_dir)
+
+output_filename = f"{current_dir}/output.txt"
 
 # with open(output_filename, "w") as file:
 #     file.write("weee!")
