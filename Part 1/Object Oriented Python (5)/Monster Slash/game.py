@@ -1,5 +1,5 @@
 import random
-from actors import Player, Enemy
+from actors import Player, Enemy, Ogre, Imp
 
 
 class Game:
@@ -28,20 +28,41 @@ class Game:
         while True:
             next_enemy = random.choice(self.enemies)
             cmd = input("You see a {}. [r]un, [a]ttack, [p]ass? ".format(next_enemy.kind))
+
+
             if cmd == "r":
                 print("{} runs away!".format(self.player.name))
+                print("{} heals thyself!".format(self.player.name))
+                self.player.heal()
+                print(self.player.hp)
+
             elif cmd == "a":
-                print("{} attacks the {}!".format(self.player.name, next_enemy.kind))
-                if self.player.attacks(next_enemy):
+                self.player.attacks(next_enemy)
+                if not next_enemy.is_alive():
                     self.enemies.remove(next_enemy)
-                else:
-                    print("{} hides to plan the next move.".format(self.player.name))
+                    next_enemy = None
+                if next_enemy:
+                    next_enemy.attacks(self.player)
+
             elif cmd == "p":
                 print("You are still thinking about your next move...")
+                if random.randint(1, 11) < 5:
+                    next_enemy.attacks(self.player)
+
             else:
                 print("Please choose a valid option.")
 
+            if not self.player.is_alive():
+                print("Oh no! You lose.")
+                break
+
+
             self.print_linebreak()
+            self.player.stats()
+            for e in self.enemies:
+                e.stats()
+            self.print_linebreak()
+
 
             if not enemies:
                 print("You have won! Congratulations!")
@@ -50,12 +71,11 @@ class Game:
 
 if __name__ == "__main__":
     enemies = [
-        Enemy("Ogre", 1),
-        Enemy("Imp", 1)
+        Ogre("Bob", 1, 3),
+        Imp("Alice", 1)
 
     ]
 
     player = Player("Hercules", 1)
 
-    Game(player, enemies).main()
     Game(player, enemies).main()

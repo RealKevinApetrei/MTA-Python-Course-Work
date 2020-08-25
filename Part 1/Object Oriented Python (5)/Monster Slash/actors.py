@@ -1,56 +1,70 @@
 from random import randint
 
 
-class Player:
+class Actor:
     def __init__(self, name, level):
         self.name = name
         self.level = level
+        self.hp = 100 * level
 
     def __repr__(self):
-        return ("<Player: {} at Level {}>"
-                    .format(
-                        self.name,
-                        self.level
-                    ))
+        return "<Actor: {}, Level {}".format(self.name, self.level)
+
+    def is_alive(self):
+        return self.hp > 0
 
     def get_attack_power(self):
-        return randint(1, 100) * self.level
+        return randint(1, 10) * self.level
+
+    def stats(self):
+        print("{} has {} HP.".format(self.name, self.hp))
+
+    def attacks(self, other):
+        raise NotImplementedError()
+
+
+class Player(Actor):
+    def heal(self):
+        self.hp += 10
 
     def attacks(self, enemy):
         power = self.get_attack_power()
-        enemy_power = enemy.get_attack_power()
+        print("{} attacks {}".format(self.name, enemy.kind))
+        print("{} has {} attack power.".format(self.name, power))
+        enemy.hp -= power
 
-        print("You summon {} power units!".format(power))
-        print("{} summons {} power units!".format(enemy.kind, enemy_power))
-
-        if power >= enemy_power:
-            print("You slay the {}.".format(enemy.kind))
-            return True
-        else:
-            print("You were defeated!")
-            return False
-            
-
-class Enemy:
-    def __init__(self, kind, level):
+class Enemy(Actor):
+    def __init__(self, name, level, kind):
+        super().__init__(name, level)
         self.kind = kind
-        self.level = level
 
-    def __repr__(self):
-        return ("<Enemy: {}>"
-                    .format(
-                        self.kind
-                    ))
+    def attacks(self, player):
+        print("{} the {} attacks {}.".format(self.name, self.kind, player.name))
+        e_power = self.get_attack_power()
+        print("{} has {} attack power.".format(self.name, e_power))
+        player.hp -= e_power
+
+class Ogre(Enemy):
+    def __init__(self, name, level, size):
+        super().__init__(name, level, "Ogre")
+        self.size = size
 
     def get_attack_power(self):
-        return randint(1, 100) * self.level
+        return randint(1, 5) * (self.size * self.level)
+
+
+class Imp(Enemy):
+    def __init__(self, name, level):
+        super().__init__(name, level, "Imp")
+
+    def get_attack_power(self):
+        return super().get_attack_power() / 4
 
 
 if __name__ == "__main__":
-    # player = Player(name="Hercules", level=1)
-    # print(player)
-    # print(player.get_attack_power())
-
-    enemy = Enemy(kind="Ogre", level=1)
-    print(enemy)
-    print(enemy.get_attack_power())
+    player = Player(name="Hercules", level=3)
+    ogre = Ogre(name="Bob", level=1, size=2)
+    print(player.hp)
+    ogre.attacks(player)
+    player.heal()
+    print(player.hp)
