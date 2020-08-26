@@ -5,11 +5,11 @@ from grabber import Grabber
 
 @timefunc
 def main():
-    ip = "194.168.4.100"
-    portrange = (50, 55)
+    ip = "192.168.0.56"
+    portrange = (1, 100)
     scanner = Scanner(ip)
     scanner.scan(*portrange)
-    for port in scanner.open_ports: 
+    for port in scanner.open_ports:
         try:
             grabber = Grabber(ip, port)
             print(grabber.read())

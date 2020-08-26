@@ -32,9 +32,9 @@ class Scanner:
 
 
 def main():
-    ip = "192.168.0.1"
+    ip = "192.168.0.56"
     scanner = Scanner(ip)
-    scanner.scan(1, 100)
+    scanner.scan(1, 10000)
     scanner.write("./open_ports")
 
 
