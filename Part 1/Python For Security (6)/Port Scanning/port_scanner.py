@@ -34,8 +34,8 @@ class Scanner:
 def main():
     ip = "192.168.0.56"
     scanner = Scanner(ip)
-    scanner.scan(1, 10)
-    scanner.write("./open_ports")
+    scanner.scan(1, 1)
+    scanner.write("Part 1/Python For Security (6)/Port Scanning/open_ports")
 
 
 if __name__ == "__main__":
