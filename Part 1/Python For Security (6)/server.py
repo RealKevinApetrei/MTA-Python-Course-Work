@@ -11,7 +11,7 @@ class Server:
         hostport = (self.host, self.port)
         self.socket.bind(hostport)
         self.socket.listen(1)
-        conn, addr = self.socket.accept()
+        conn, _ = self.socket.accept()
         with conn:
             while True:
                 data = conn.recv(1024)
