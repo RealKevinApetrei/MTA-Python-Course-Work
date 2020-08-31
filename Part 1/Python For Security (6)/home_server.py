@@ -9,17 +9,17 @@ def main():
     server.listen(1)
     
     conn, addr = server.accept()
-    pcap = PCAPFile("remote.pcap")
+    pcap = PCAPFile("/home/remote.pcap") # WARNING! CREATES LARGE FILE
     with conn:
         while True:
             data = conn.recv(1024)
 
             if data:
-                pcap.write(data)
+                pcap.write(data) # WARNING!
     
     pcap.close()
                 
 
 
 if __name__ == "__main__":
-    main()
+    # main() # WARNING CREATES LARGE FILE
