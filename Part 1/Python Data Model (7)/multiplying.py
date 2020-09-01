@@ -17,7 +17,6 @@ class Point:
     def __imul__(self, other):
         return self.__mul__(other)
             
-            
     
 
 p1 = Point(0, 0)
